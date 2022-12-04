@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Live Log</title>
     <style>
@@ -9,11 +10,13 @@
             font-family: monospace;
             font-weight: bold;
         }
+
         #log-data {
             padding: 20px;
         }
     </style>
 </head>
+
 <body>
     <div id="log-data">
         <p id="loading-message">Loading log...</p>
@@ -25,13 +28,21 @@
             return str.replace(/\n/g, "<br>");
         }
 
+        const htmlReg = new RegExp('<\\/?[a-z][a-z0-9]*[^<>]*>|<!--.*?-->', 'img')
+
+        // Define a function to remove the href and script tags from a given string
+        function removeHrefAndScriptTags(text) {
+
+            return text.replace(htmlReg, "");
+        }
+
         // Load data from the specified URL and insert it into the page
         function loadData(url) {
             var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
+            xhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
                     // Insert the data into the page
-                    document.getElementById("log-data").innerHTML = replaceNewlines(this.responseText);
+                    document.getElementById("log-data").innerHTML = replaceNewlines(removeHrefAndScriptTags(this.responseText));
 
                     // Scroll to the bottom of the page if there is new data
                     if (this.responseText.length > 0) {
@@ -44,9 +55,10 @@
         }
 
         // Automatically load new data from the specified URL every 5 seconds
-        setInterval(function() {
+        setInterval(function () {
             loadData("./newest.log");
         }, 5000);
     </script>
 </body>
+
 </html>
