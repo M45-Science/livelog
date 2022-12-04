@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Live Log</title>
+    <style>
+        body {
+            background-color: #333;
+            color: #fff;
+            font-family: monospace;
+            font-weight: bold;
+        }
+        #log-data {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="log-data">
+        <p id="loading-message">Loading log...</p>
+    </div>
+
+    <script>
+        // Replace unix newlines with HTML newlines
+        function replaceNewlines(str) {
+            return str.replace(/\n/g, "<br>");
+        }
+
+        // Load data from the specified URL and insert it into the page
+        function loadData(url) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    // Insert the data into the page
+                    document.getElementById("log-data").innerHTML = replaceNewlines(this.responseText);
+
+                    // Scroll to the bottom of the page if there is new data
+                    if (this.responseText.length > 0) {
+                        window.scrollTo(0, document.body.scrollHeight);
+                    }
+                }
+            };
+            xhttp.open("GET", url, true);
+            xhttp.send();
+        }
+
+        // Automatically load new data from the specified URL every 5 seconds
+        setInterval(function() {
+            loadData("./newest.log");
+        }, 5000);
+    </script>
+</body>
+</html>
