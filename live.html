@@ -17,7 +17,7 @@
     </style>
 </head>
 
-<body>
+<body onload="onload()">
     <div id="log-data">
         <p id="loading-message">Loading log...</p>
     </div>
@@ -57,7 +57,11 @@
         // Automatically load new data from the specified URL every 5 seconds
         setInterval(function () {
             loadData("./newest.log");
-        }, 5000);
+        }, 3000);
+
+        function onload() {
+            loadData("./newest.log");
+        };
     </script>
 </body>
 
