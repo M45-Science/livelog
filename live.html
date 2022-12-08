@@ -64,6 +64,7 @@
         }, 3000);
 
         function onload() {
+            //Append server name to page title
             var path = location.pathname;
             var pfolder =  path.match(getPFolder)[1]
             document.title += pfolder.toUpperCase()
