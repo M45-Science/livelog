@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <title>Live Log</title>
-    <style>
+    <head>
+        <title>Live Log: M45-</title>
+        <style>
         body {
             background-color: #222;
             color: #fff;
             font-family: monospace;
-            font-weight:normal;
+            font-weight: normal;
             font-size: larger;
         }
 
@@ -16,20 +16,21 @@
             padding: 20px;
         }
     </style>
-</head>
+    </head>
 
-<body onload="onload()">
-    <div id="log-data">
-        <p id="loading-message">Loading...</p>
-    </div>
+    <body onload="onload()">
+        <div id="log-data">
+            <p id="loading-message">Loading...</p>
+        </div>
 
-    <script>
+        <script>
         // Replace unix newlines with HTML newlines
         function replaceNewlines(str) {
             return str.replace(/\n/g, "<br>");
         }
 
         const htmlReg = new RegExp('<\\/?[a-z][a-z0-9]*[^<>]*>|<!--.*?-->', 'img')
+        const getPFolder = new RegExp('.*\\/current-logs\\/(.*)\\/live\\.html', '')
         let lastLen = 0 //So we only scroll to bottom on new lines of text
 
         // Define a function to remove the href and script tags from a given string
@@ -63,9 +64,13 @@
         }, 3000);
 
         function onload() {
+            var path = location.pathname;
+            var pfolder =  path.match(getPFolder)[1]
+            document.title += pfolder.toUpperCase()
+
             loadData("./newest.log");
         };
     </script>
-</body>
+    </body>
 
 </html>
