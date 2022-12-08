@@ -29,6 +29,7 @@
         }
 
         const htmlReg = new RegExp('<\\/?[a-z][a-z0-9]*[^<>]*>|<!--.*?-->', 'img')
+        let lastLen = 0 //So we only scroll to bottom on new lines of text
 
         // Define a function to remove the href and script tags from a given string
         function removeHrefAndScriptTags(text) {
@@ -45,7 +46,8 @@
                     document.getElementById("log-data").innerHTML = replaceNewlines(removeHrefAndScriptTags(this.responseText));
 
                     // Scroll to the bottom of the page if there is new data
-                    if (this.responseText.length > 0) {
+                    if (this.responseText.length > lastLen) {
+                        lastLen = this.responseText.length
                         window.scrollTo(0, document.body.scrollHeight);
                     }
                 }
